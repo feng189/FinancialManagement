@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <!-- 必须的 meta 标签 -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap 的 CSS 文件 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <title>FinancialManagement</title>
+    <style type="text/css">
+    .style1 {
+        position: relative;
+    }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">财务管理</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link " aria-current="page" href="{:url('account/index')}"><i class="bi bi-person-circle"></i>&nbsp;我的账户</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{:url('add/index')}"><i class="bi bi-pencil"></i>记一笔</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            账单明细
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                            <li><a class="dropdown-item" href="{:url('detail/index')}">资产类科目</a></li>
+                            <li><a class="dropdown-item" href="{:url('detail/index')}">损益类科目</a></li>
+                            <li><a class="dropdown-item" href="{:url('detail/index')}">负债类科目</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="{:url('detail/sum')}">总明细</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " aria-current="page" href="{:url('subject/index')}">科目管理</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- 菜单结束 -->
+    <hr>
+    <div class="d-flex flex-column bd-highlight mb-3 border ">
+        <div class="p-2 bd-highlight m-auto"><b>记一笔账单</b> </div>
+        <div class="d-flex flex-row-reverse bd-highlight mb-3">
+            <!-- Button trigger modal -->
+            <div class="p-1 bd-highlight "></div>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                科目含义
+            </button>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">提示</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div>1.资产类科目:库存现金、银行存款、其他货币资金、应收票据、应收账款、预付账款、应收股利、应收利息、其他应收款、坏账准备、材料采购、原材料、库存商品、存货跌价准备、待摊费用、长期应收款、固定资产、累计折旧、固定资产减值准备.</div><br>
+                        <div>2.损益类科目：主营业务收入、其他业务收入、投资收益、营业外收入、主营业务成本、其他业务成本、营业税金及附加、销售费用、管理费用、财务费用、资产减值损失、营业外支出、所得税费用.</div><br>
+                        <div>3.负债类科目：短期借款、应付票据、应付账款、预收账款、应付职工薪酬、应交税费、应付股利、应付利息、其他应付款、长期借款、应付债券、长期应付款.</div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary " data-bs-dismiss="modal">Understood</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form class="form-inline m-auto" method="post">
+            <div class="row">
+                <div class="p-2 bd-highlight  col-6">
+                    <b style="position: relative;top:0.5rem;">请选择科目：</b>
+                </div>
+                <div class="p-2 bd-highlight col-6 style1" style="right: 3rem;">
+                    <select class="form-select " aria-label="Default select example">
+                        <option value="1">资产类科目</option>
+                        <option value="2">损益性科目</option>
+                        <option value="3">负债类科目</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="p-2 bd-highlight  col-6">
+                    <b class="style1" style="top:0.5rem;">请输入借方：</b>
+                </div>
+                <div class="p-2 bd-highlight col-6 style1" style="right: 3rem;">
+                    <input type="text" class="form-control-plaintext border" id="borrower" placeholder="名称..." value="">
+                </div>
+            </div>
+            <div class="row">
+                <div class="p-2 bd-highlight  col-6">
+                    <b class="style1" style="top:0.5rem;">请输入贷方：</b>
+                </div>
+                <div class="p-2 bd-highlight col-6 style1" style="right: 3rem;">
+                    <input type="text" class="form-control-plaintext border" id="lender" placeholder="名称..." value="">
+                </div>
+            </div>
+            <div class="row">
+                <div class="p-2 bd-highlight  col-6">
+                    <b class="style1" style="top:0.5rem;">请输入金额：</b>
+                </div>
+                <div class="p-2 bd-highlight col-6 style1" style="right: 3rem;">
+                    <input type="text" class="form-control-plaintext border" id="money" placeholder="0.00" value="">
+                </div>
+            </div>
+            <div class="row">
+                <div class="p-2 bd-highlight  col-6">
+                    <b class="style1" style="top:0.5rem;">备注（可选）：</b>
+                </div>
+                <div class="p-2 bd-highlight col-6 style1" style="right: 3rem;">
+                    <input type="text" class="form-control-plaintext border" id="ps" placeholder="内容..." value="">
+                    <button type="button" type="submit" class="btn btn-secondary style1" style="top: 2rem;">确定</button>
+                </div>
+            </div>
+        </form>
+        <br><br>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+
+</html>
