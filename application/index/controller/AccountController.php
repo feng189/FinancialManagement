@@ -2,7 +2,7 @@
 namespace app\index\controller;     
 use think\Controller;
 
-class IndexController extends Controller
+class AccountController extends Controller
 {
     public function index()
     {

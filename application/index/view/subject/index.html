@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <!-- 必须的 meta 标签 -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap 的 CSS 文件 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <title>FinancialManagement</title>
+    <style type="text/css">
+    .style1 {
+        position: relative;
+    }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">财务管理</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{:url('account/index')}"><i class="bi bi-person-circle"></i>&nbsp;我的账户</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{:url('add/index')}"><i class="bi bi-pencil"></i>记一笔</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link  dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            账单明细
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                            <li><a class="dropdown-item" href="{:url('detail/index')}">资产类科目</a></li>
+                            <li><a class="dropdown-item" href="{:url('detail/index')}">损益类科目</a></li>
+                            <li><a class="dropdown-item" href="{:url('detail/index')}">负债类科目</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="{:url('detail/sum')}">总明细</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link  active" aria-current="page" href="{:url('subject/index')}">科目管理</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- 菜单结束 -->
+    <hr>
+    <div class="text-center">
+        <button class="btn btn-secondary">
+            科目管理
+        </button>
+        <div class="d-flex flex-row-reverse bd-highlight style1" style="right: 1rem;">
+           <a href="{:url('add')}" class="btn  btn-primary ">
+                新增
+           </a>
+        </div>
+    </div>
+    <hr>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">名称</th>
+                <th scope="col">创建时间</th>
+                <th scope="col">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>资产类科目</td>
+                <td>0</td>
+                <td>
+                    <a href="{:url('edit')}" class="btn btn-sm btn-primary">编辑</a>
+                    <a href="" class="btn btn-danger btn-sm">删除</a>
+                </td>
+            </tr>
+            <tr>
+            </tr>
+        </tbody>
+    </table>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+
+</html>
