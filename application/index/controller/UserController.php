@@ -2,10 +2,11 @@
 namespace app\index\controller;     
 use think\Controller;
 use app\common\model\Subject;
+use app\common\model\User;
 use think\Request;
 use think\Db;
 use app\common\model\Detail;
-class SubjectController extends Index1Controller
+class UserController extends Index1Controller
 {
     public function index()
     {
@@ -14,29 +15,25 @@ class SubjectController extends Index1Controller
         $name = Request::instance()->get('name');
         
         //分页数目
-    	$pageSize= 2;
+    	$pageSize= 4;
         
         // 实例化
-    	$subject = new Subject;
+    	$User = new User;
          
         // 按条件查询数据并调用分页
-    	$subjects= $subject->where('name', 'like', '%' . $name . '%')->paginate($pageSize, false, [
+    	$Users= $User->where('name', 'like', '%' . $name . '%')->paginate($pageSize, false, [
             'query'=>[
                 'name' => $name,
                 ],
             ]); 
-    	$Subjects = Db::name('subject')->select();
-        $this->assign('Subjects',$Subjects);
 
-    	$this->assign('subjects',$subjects);
+    	$this->assign('Users',$Users);
 
         // 将数据返回给用户
         return $this->fetch();
     }
      public function add()
     {
-        $Subjects = Db::name('subject')->select();
-        $this->assign('Subjects',$Subjects);
         return $this->fetch();
     }
 
@@ -44,36 +41,40 @@ class SubjectController extends Index1Controller
     {
         $postData = Request::instance()->post();
 
-        $subject = new Subject;
+        $User = new User;
 
-        $subject->name = $postData['name'];
+        $User->name = $postData['name'];
+        $User->username = $postData['username'];
+        $User->password = $postData['password'];
 
-       $result= $subject->validate()->save();
+       $result= $User->validate()->save();
 
         if (false === $result)
         {   
             // 验证未通过，发生错误
-            $message = '新增失败:' . $subject->getError();
+            $message = '新增失败:' . $User->getError();
             return $this->error($message);
         } else {
             // 提示操作成功，并跳转至管理列表
-            return $this->success( $subject->name . '新增成功。', url('index'));
+            return $this->success( $User->name . '新增成功。', url('index'));
         } 
     }
     public function save()
     {
         $postData = Request::instance()->post();
 
-        $subject =Subject::get($postData['id']);
+        $User =User::get($postData['id']);
 
-        $subject->name = $postData['name'];
+        $User->name = $postData['name'];
+        $User->username = $postData['username'];
+        $User->password = $postData['password'];
 
-       $result= $subject->validate()->save();
+       $result= $User->validate()->save();
 
         if (false === $result)
         {   
             // 验证未通过，发生错误
-            $message = '新增失败:' . $subject->getError();
+            $message = '新增失败:' . $User->getError();
             return $this->error($message);
         } else {
             // 提示操作成功，并跳转至管理列表
@@ -92,15 +93,13 @@ class SubjectController extends Index1Controller
         }
 
         // 获取要删除的对象
-        $subject = Subject::get($id);
+        $User = User::get($id);
 
         // 要删除的对象不存在
-        if (is_null($subject)) {
-            return $this->error('不存在id为' . $id . '的科目，删除失败');
+        if (is_null($User)) {
+            return $this->error('不存在id为' . $id . '的用户，删除失败');
         }
-        $Subjects = Db::name('subject')->select();
-        $this->assign('Subjects',$Subjects);
-        $this->assign('subject1',$subject);
+        $this->assign('User',$User);
         return $this->fetch();
     }
 
@@ -116,27 +115,30 @@ class SubjectController extends Index1Controller
         }
 
         // 获取要删除的对象
-        $subject = Subject::get($id);
+        $User = User::get($id);
 
         // 要删除的对象不存在
-        if (is_null($subject)) {
-            return $this->error('不存在id为' . $id . '的科目，删除失败');
+        if (is_null($User)) {
+            return $this->error('不存在id为' . $id . '的用户，删除失败');
         }
 
         // 删除对象
-        if (!$subject->delete()) {
-            return $this->error('删除失败:' . $subject->getError());
+        if (!$User->delete()) {
+            return $this->error('删除失败:' . $User->getError());
         }
+
          //将对象的记录删除
         $details = Db::name('detail')->select();
 
         foreach ($details as $detail) {
-        	if($detail['subject']===$id)
-        	{
-        		$detail1 = Detail::get($detail['id']);
-        		$detail1->delete();
-        	}
+            if($detail['user_id']===$id)
+            {
+                $detail1 = Detail::get($detail['id']);
+                $detail1->delete();
+            }
         }
+
+
         return $this->success('删除成功',url('index')); 
     }
 }

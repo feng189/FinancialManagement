@@ -29,36 +29,33 @@
                         <a class="nav-link " aria-current="page" href="{:url('account/index')}"><i class="bi bi-person-circle"></i>&nbsp;我的账户</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{:url('add/index')}"><i class="bi bi-pencil"></i>记一笔</a>
+                        <a class="nav-link active" aria-current="page" href="{:url('add/index')}"><i class="bi bi-pencil"></i>&nbsp;记一笔</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            账单明细
+                            <i class="bi bi-piggy-bank"></i>&nbsp;账单明细
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                            <li><a class="dropdown-item" href="{:url('detail/index')}">资产类科目</a></li>
-                            <li><a class="dropdown-item" href="{:url('detail/index')}">损益类科目</a></li>
-                            <li><a class="dropdown-item" href="{:url('detail/index')}">负债类科目</a></li>
+                            {volist name="Subjects" id="subject" key="key"}
+                            <li><a class="dropdown-item" href="{:url('detail/index?subject='.$subject['id'] )}">{$subject['name']}</a></li>
+                            {/volist}
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="{:url('detail/sum')}">总明细</a></li>
+                            <li><a class="dropdown-item" href="{:url('detail/index')}">总明细</a></li>
                         </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " aria-current="page" href="{:url('subject/index')}">科目管理</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
     <!-- 菜单结束 -->
-    <hr>
     <div class="d-flex flex-column bd-highlight mb-3 border ">
         <div class="p-2 bd-highlight m-auto"><b>记一笔账单</b> </div>
         <div class="d-flex flex-row-reverse bd-highlight mb-3">
             <!-- Button trigger modal -->
             <div class="p-1 bd-highlight "></div>
+
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                 科目含义
             </button>
@@ -83,52 +80,89 @@
                 </div>
             </div>
         </div>
-        <form class="form-inline m-auto" method="post">
+        <form class="form-inline m-auto" method="post" name="form1" action="">
             <div class="row">
                 <div class="p-2 bd-highlight  col-6">
                     <b style="position: relative;top:0.5rem;">请选择科目：</b>
                 </div>
                 <div class="p-2 bd-highlight col-6 style1" style="right: 3rem;">
-                    <select class="form-select " aria-label="Default select example">
-                        <option value="1">资产类科目</option>
-                        <option value="2">损益性科目</option>
-                        <option value="3">负债类科目</option>
-                    </select>
+
+                    <select class="form-select " name="subject" aria-label="Default select example">
+                        {volist name="Subjects" id="subject" key="key"}
+                        <option value="{$subject['id']}" {eq name="sub" value="$subject['id']" } selected="selected" {/eq}> {$subject['name']}
+                        </option>
+                        {/volist}
+                    </select> 
+                </div> 
+             </div> 
+                        {eq name='$choose' value='0' } <div class="row">
+                            <div class="p-2 bd-highlight  col-4">
+                                <b class="style1" style="top:0.5rem;">请选择您为借方或贷方:</b>
+                            </div>
+                            <div class="p-2 bd-highlight col-6 style1" style="top: 1rem;left: 0.8rem;">
+                                <select class="form-select " name="choose" aria-label="Default select example">
+                                    <option value="1">借方</option>
+                                    <option value="2">贷方</option>
+                                </select>
+                            </div>
+                            <div class="p-2 bd-highlight  col-4">
+                            </div>
+                            <div class="p-2 bd-highlight col-6 style1" style="top: 1rem; left: 0.8rem;">
+                                <input type="button" value="确认" type="submit" class="btn btn-secondary style1" onclick="form1.action='{:url('index')}';form1.submit();" style="top: 2rem;" />
+                            </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="p-2 bd-highlight  col-6">
-                    <b class="style1" style="top:0.5rem;">请输入借方：</b>
+                {/eq}
+                {if $choose==1 || $choose==2}
+                <div class="row">
+                    <div class="p-2 bd-highlight  col-6">
+                        <b class="style1" style="top:0.5rem;">请输入借方：</b>
+                    </div>
+                    <div class="p-2 bd-highlight col-6 style1" style="right: 3rem;">
+                        {if $choose==1}
+                        <input type="hidden" name="lender" value="{$User->name}">
+                        <input type="text" class="form-control border" name="lender" id="lender" aria-label="Disabled input example" value="  {$User->name}" disabled>
+                        {/if}
+                        {if $choose==2}
+                        <input type="text" class="form-control border" name="lender" id="lender" placeholder="名称..." value="">
+                        {/if}
+                    </div>
                 </div>
-                <div class="p-2 bd-highlight col-6 style1" style="right: 3rem;">
-                    <input type="text" class="form-control-plaintext border" id="borrower" placeholder="名称..." value="">
+                {/if}
+                {if $choose==1 || $choose==2}
+                <div class="row">
+                    <div class="p-2 bd-highlight  col-6">
+                        <b class="style1" style="top:0.5rem;">请输入贷方：</b>
+                    </div>
+                    <div class="p-2 bd-highlight col-6 style1" style="right: 3rem;">
+                        {if $choose==2}
+                        <input type="hidden" name="borrower" value="{$User->name}">
+                        <input type="text" class="form-control border" name="borrower" id="borrower" aria-label="Disabled input example" value="{$User->name}" disabled>
+                        {/if}
+                        {if $choose==1}
+                        <input type="text" class="form-control border" name="borrower" id="borrower" placeholder="名称..." value="">
+                        {/if}
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="p-2 bd-highlight  col-6">
-                    <b class="style1" style="top:0.5rem;">请输入贷方：</b>
+                {/if}
+                {if $choose==1 || $choose==2}
+                <div class="row">
+                    <div class="p-2 bd-highlight  col-6">
+                        <b class="style1" style="top:0.5rem;">请输入金额：</b>
+                    </div>
+                    <div class="p-2 bd-highlight col-6 style1" style="right: 3rem;">
+                        <input type="text" class="form-control-plaintext border" name="money" id="money" placeholder="0.00" value="">
+                    </div>
                 </div>
-                <div class="p-2 bd-highlight col-6 style1" style="right: 3rem;">
-                    <input type="text" class="form-control-plaintext border" id="lender" placeholder="名称..." value="">
+                <div class="row">
+                    <div class="p-2 bd-highlight  col-6">
+                        <b class="style1" style="top:0.5rem;">备注（可选）：</b>
+                    </div>
+                    <div class="p-2 bd-highlight col-6 style1" style="right: 3rem;">
+                        <input type="text" class="form-control-plaintext border" name="ps" id="ps" placeholder="内容..." value="">
+                        <input type="button" value="确认" type="submit" class="btn btn-secondary style1" onclick="form1.action='{:url('save')}';form1.submit();" style="top: 2rem;" />
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="p-2 bd-highlight  col-6">
-                    <b class="style1" style="top:0.5rem;">请输入金额：</b>
-                </div>
-                <div class="p-2 bd-highlight col-6 style1" style="right: 3rem;">
-                    <input type="text" class="form-control-plaintext border" id="money" placeholder="0.00" value="">
-                </div>
-            </div>
-            <div class="row">
-                <div class="p-2 bd-highlight  col-6">
-                    <b class="style1" style="top:0.5rem;">备注（可选）：</b>
-                </div>
-                <div class="p-2 bd-highlight col-6 style1" style="right: 3rem;">
-                    <input type="text" class="form-control-plaintext border" id="ps" placeholder="内容..." value="">
-                    <button type="button" type="submit" class="btn btn-secondary style1" style="top: 2rem;">确定</button>
-                </div>
-            </div>
+                {/if}
         </form>
         <br><br>
     </div>
