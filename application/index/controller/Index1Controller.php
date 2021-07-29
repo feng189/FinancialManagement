@@ -1,9 +1,8 @@
 <?php
 namespace app\index\controller;     
 use think\Controller;
-use app\common\model\User;
 use app\common\model\Admin;
-class IndexController extends Controller
+class Index1Controller extends Controller
 {   
 
     public function __construct()
@@ -12,7 +11,7 @@ class IndexController extends Controller
         parent::__construct();
 
         // 验证用户是否登陆
-        if (!User::isLogin()&&!Admin::isLogin()) {
+        if (!Admin::isLogin()) {
             return $this->error('plz login first', url('Login/index'));
         }
     }
@@ -22,4 +21,3 @@ class IndexController extends Controller
     }
 
 }
-
